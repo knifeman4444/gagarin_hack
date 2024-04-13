@@ -3,10 +3,15 @@ import pandas as pd
 
 pulse = TinkoffPulse()
 
+with open('old_tickers.txt', 'r') as f:
+    old_tickers = f.read().split()
+
 with open('tickers.txt', 'r') as f:
     tickers = f.read().split()
 
 for ticker in tickers:
+    if ticker in old_tickers:
+        continue
     print(f'Downloading posts for {ticker}')
     df = pd.DataFrame(columns=['time', 'text'])
     texts = []
