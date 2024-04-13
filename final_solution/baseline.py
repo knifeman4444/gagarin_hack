@@ -2,7 +2,7 @@ import typing as tp
 from . import dataloader
 from tqdm import tqdm
 
-Entity = tp.Tuple[int, tp.Tuple[int, int]]  # (entity_id, (start, end))
+Entity = tp.Tuple[int, int, int]  # (entity_id, (start, end))
 
 
 def find_entities(messages: tp.Iterable[str]) -> tp.List[tp.List[Entity]]:
@@ -22,7 +22,7 @@ def find_entities(messages: tp.Iterable[str]) -> tp.List[tp.List[Entity]]:
                 start = message.lower().find(syn)
                 if start != -1:
                     end = start + len(syn)
-                    entities.append((id, (start, end)))
+                    entities.append((id, start, end))
                     break
         result.append(entities)
     return result

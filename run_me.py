@@ -1,9 +1,9 @@
 import json
 import pathlib
 import typing as tp
+import torch
 
 import final_solution
-import final_solution.solution_stupid
 
 
 PATH_TO_TEST_DATA = pathlib.Path("data") / "test_texts.json"
@@ -24,7 +24,21 @@ def save_data(data, path: pathlib.PosixPath = PATH_TO_OUTPUT_DATA):
 
 def main():
     texts = load_data()
-    scores = final_solution.solution.score_texts(texts)
+
+    # Хотим работать с cuda
+    device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+    print("device:", device)
+
+    # Параметры решения
+    model_name = 'google-bert/bert-base-multilingual-cased'
+    path_to_model = 'models/google-bert_bert-base-multilingual-cased_0.6345.pth'
+
+    # Загрузка токенайзера и модели
+    tokenizer, model = final_solution.bert_sentiment.get_tokenizer_and_model(model_name,
+                                                                             device,
+                                                                             path_to_model)
+
+    scores = final_solution.solution.score_texts(texts, tokenizer, model, device)
     save_data(scores)
 
 
