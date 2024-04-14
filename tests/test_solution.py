@@ -10,8 +10,8 @@ device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 print("device:", device)
 
 # Параметры решения
-model_name = 'google-bert/bert-base-multilingual-cased'
-path_to_model = 'models/google-bert_bert-base-multilingual-cased_0.6345.pth'
+model_name = 'adorkin/xlm-roberta-en-ru-emoji'
+path_to_model = 'models/adorkin_xlm-roberta-en-ru-emoji_0.7138.pth'
 
 # Загрузка токенайзера и модели
 tokenizer, model = final_solution.bert_sentiment.get_tokenizer_and_model(model_name,

@@ -8,7 +8,9 @@ from typing import List, Tuple, Optional
 
 def get_tokenizer_and_model(model_name, device, path_to_model):
     tokenizer = AutoTokenizer.from_pretrained(model_name)
-    model = AutoModelForSequenceClassification.from_pretrained(model_name, num_labels=5)
+    model = AutoModelForSequenceClassification.from_pretrained(model_name,
+                                                               num_labels=5,
+                                                               ignore_mismatched_sizes=True)
     model.load_state_dict(torch.load(path_to_model, map_location=torch.device(device)))
     model = model.to(device)
     return tokenizer, model
@@ -111,6 +113,7 @@ def predictions_to_ans_format(preds, entities, sizes):
 
 
 def get_sentiment(messages, entities, tokenizer, model, device):
+    # Преобразования данных
     messages, entities, sizes = data_to_model_format(messages, entities)
     test_dataset = EntityDataset(messages, None, entities, tokenizer)
     pad_collate = get_pad_collate_with_tokenizer(tokenizer)
@@ -119,6 +122,7 @@ def get_sentiment(messages, entities, tokenizer, model, device):
     model.eval()
     test_preds = []
 
+    # Предсказания
     for batch in test_loader:
         b_input_ids = batch['input_ids'].to(device)
         b_input_mask = batch['attention_mask'].to(device)

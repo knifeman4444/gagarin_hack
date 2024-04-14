@@ -5,7 +5,7 @@ from tqdm import tqdm
 import ahocorasick
 import re
 
-Entity = tp.Tuple[int, int, int]  # (entity_id, (start, end))
+Entity = tp.Tuple[int, int, int]  # (entity_id, start, end)
 
 tickers_automaton = ahocorasick.Automaton()
 for id, ticker in tickers.items():
