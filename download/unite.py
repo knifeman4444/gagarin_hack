@@ -20,3 +20,5 @@ for filename in os.listdir(directory):
 df = pd.concat(sus)
 
 df.to_csv(f'all_data.csv', index=False)
+
+#%%
