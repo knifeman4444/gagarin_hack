@@ -3,7 +3,6 @@ import traceback
 import time
 
 import openai
-from openai import OpenAI
 
 SYSTEM_PROMPT = """Необходимо оценить Sentiment score компании числами от 1 до 5, где
 1: Очень негативное относительно компании или дана рекомендация "продавать",
@@ -12,13 +11,14 @@ SYSTEM_PROMPT = """Необходимо оценить Sentiment score комп�
 Считается положительной новостью (sentiment_score > 3), т.к. есть объяснение.
 4: Что-то положительное.
 5: Очень положительное или есть рекомендация "покупать" или "входит в подборку наших супер-акций"
+Выводить необходимо только одну цифру от 1 до 5!
 """
 
 
 class RequestManager:
     def __init__(self, model: str = 'gpt-3.5-turbo'):
         with open('openai_key.txt', 'r') as f:
-            self.client = OpenAI(
+            self.client = openai.OpenAI(
                 api_key=f.read().strip()
             )
 
@@ -70,7 +70,8 @@ class RequestManager:
 
 def main():
     manager = RequestManager()
-    result = manager.write_one_message_with_role('{$ABIO} пробьет 111, дальше к 105 пойдет')
+    result = manager.write_one_message_with_role('Новость: "{$ABIO} пробьет 111, дальше к 105 пойдет". '
+                                                 'Нужно оценить сентимент от 1 до 5. Выводи только цифру.')
     print(result)
 
 
@@ -78,3 +79,5 @@ if __name__ == "__main__":
     main()
     # loop = asyncio.get_event_loop()
     # loop.run_until_complete(main())
+
+#%%
