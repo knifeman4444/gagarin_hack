@@ -5,6 +5,7 @@ from tqdm import tqdm
 import ahocorasick
 import re
 
+
 Entity = tp.Tuple[int, tp.Tuple[int, int]]  # (entity_id, (start, end))
 
 tickers_automaton = ahocorasick.Automaton()
@@ -21,7 +22,7 @@ synonyms_automaton.make_automaton()
 
 def find_entities(messages: tp.Iterable[str]) -> tp.List[tp.List[Entity]]:
     """
-    Find entities in messages using dictionary of synonims
+    Find entities in messages using dictionary of synonyms
     Args:
         messages (tp.Iterable[str]): any iterable of strings (utf-8 encoded text messages)
     Returns:

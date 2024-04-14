@@ -26,5 +26,16 @@ def score_texts(
 
     tokenizer, model, device = args
     entities = final_solution.baseline.find_entities(messages)
-    sentiments = final_solution.bert_sentiment.get_sentiment(messages, entities, tokenizer, model, device)
+
+    entities_no_duplicates = []
+    for message_entities in entities:
+        found = set()
+        message_entities_no_duplicates = []
+        for entity in message_entities:
+            if entity[0] not in found:
+                message_entities_no_duplicates.append(entity)
+                found.add(entity[0])
+        entities_no_duplicates.append(message_entities_no_duplicates)
+
+    sentiments = final_solution.bert_sentiment.get_sentiment(messages, entities_no_duplicates, tokenizer, model, device)
     return sentiments

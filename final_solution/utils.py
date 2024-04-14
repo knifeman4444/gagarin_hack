@@ -1,8 +1,7 @@
-import pymorphy3
+import pymystem3
 import re
 
-morph = pymorphy3.MorphAnalyzer()
-
+stemmer = pymystem3.Mystem()
 
 def normalize_text(text: str) -> str:
     """
@@ -16,6 +15,6 @@ def normalize_text(text: str) -> str:
         return ''
 
     text = re.sub(r'[^\w\s]', '', text).lower()
-    words = text.split()
-    words = [morph.parse(word)[0].normal_form for word in words]
-    return ' '.join(words)
+    text = ' '.join(text.split())
+    words = stemmer.lemmatize(text)
+    return ''.join(words).strip()
