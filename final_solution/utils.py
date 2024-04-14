@@ -3,6 +3,7 @@ import re
 
 stemmer = pymystem3.Mystem()
 
+
 def normalize_text(text: str) -> str:
     """
     Normalize text (remove punctuation, lowercase, lemmatize)

@@ -32,8 +32,10 @@ def find_entities(messages: tp.Iterable[str]) -> tp.List[tp.List[Entity]]:
     for message in tqdm(messages):
         message = message.lower()
         initial_message = message
+
         def replace(match):
             return ' ' * len(match.group(0))
+
         message = re.sub(r'\b[^\w\s]+\b|\B[^\w\s]+\B', replace, message)
 
         spaces = [-1]
@@ -87,8 +89,3 @@ def find_entities(messages: tp.Iterable[str]) -> tp.List[tp.List[Entity]]:
         result.append(entities)
 
     return result
-
-
-
-
-
