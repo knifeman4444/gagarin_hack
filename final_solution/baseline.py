@@ -63,12 +63,13 @@ def find_entities(messages: tp.Iterable[str]) -> tp.List[tp.List[Entity]]:
 
         entities = []
 
+        entities_used = set()
         for end, (id, ticker) in tickers_automaton.iter(message):
             start = end - len(ticker) + 1
             start, end = get_real_bounds(start, end)
-            entities.append((id, (start, end)))
+            entities.append((id, start, end))
+            entities_used.add(id)
 
-        entities_used = set()
         for end, (id, syn) in synonyms_automaton.iter(message):
             if id in entities_used:
                 continue
