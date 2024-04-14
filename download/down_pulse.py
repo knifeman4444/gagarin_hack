@@ -1,4 +1,4 @@
-from susik import TinkoffPulse
+from parser import TinkoffPulse
 import pandas as pd
 
 pulse = TinkoffPulse()
