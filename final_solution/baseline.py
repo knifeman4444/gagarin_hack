@@ -5,7 +5,7 @@ from tqdm import tqdm
 import ahocorasick
 import re
 
-Entity = tp.Tuple[int, tp.Tuple[int, int]]  # (entity_id, (start, end))
+Entity = tp.Tuple[int, int, int]  # (entity_id, (start, end))
 
 tickers_automaton = ahocorasick.Automaton()
 for id, ticker in tickers.items():
@@ -68,7 +68,10 @@ def find_entities(messages: tp.Iterable[str]) -> tp.List[tp.List[Entity]]:
             start, end = get_real_bounds(start, end)
             entities.append((id, (start, end)))
 
+        entities_used = set()
         for end, (id, syn) in synonyms_automaton.iter(message):
+            if id in entities_used:
+                continue
             start = end - len(syn) + 1
             if start != 0 and not message[start - 1].isspace():
                 continue
@@ -77,7 +80,8 @@ def find_entities(messages: tp.Iterable[str]) -> tp.List[tp.List[Entity]]:
 
             start, end = get_real_bounds(start, end)
 
-            entities.append((id, (start, end)))
+            entities.append((id, start, end))
+            entities_used.add(id)
 
         result.append(entities)
 
