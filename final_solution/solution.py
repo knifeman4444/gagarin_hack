@@ -1,4 +1,5 @@
 import typing as tp
+import final_solution
 
 
 EntityScoreType = tp.Tuple[int, float]  # (entity_id, entity_score)
@@ -20,6 +21,10 @@ def score_texts(
         tp.Iterable[tp.Tuple[int, float]]: for any messages returns MessageResultType object
     -------
     Clarifications:
-    >>> assert all([len(m) < 10 ** 11 for m in messages]) # all messages are shorter than 2048 characters
+    >>> assert all([len(m) < 2048 for m in messages]) # all messages are shorter than 2048 characters
     """
-    raise NotImplementedError
+
+    tokenizer, model, device = args
+    entities = final_solution.baseline.find_entities(messages)
+    sentiments = final_solution.bert_sentiment.get_sentiment(messages, entities, tokenizer, model, device)
+    return sentiments
