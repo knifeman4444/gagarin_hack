@@ -1,3 +1,5 @@
+# Сломанный requirements.txt из-за dependabot! Не хватает библиотек transformers и torch. Можно откатиться до версии, где они были
+
 # Решение команды ThreeNearestNeighbours
 
 # Нужно скачать модель в папку models:
